@@ -3,13 +3,11 @@ About strict-rfc3339-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/strict-rfc3339-feedstock/blob/main/LICENSE.txt)
 
-Home: http://www.danielrichman.co.uk/libraries/strict-rfc3339.html
+Home: https://github.com/danielrichman/strict-rfc3339
 
-Package license: GPL-3.0
+Package license: GPL-3.0-or-later
 
 Summary: Strict, simple, lightweight RFC3339 functions
-
-Development: https://github.com/danielrichman/strict-rfc3339
 
 Documentation: https://github.com/danielrichman/strict-rfc3339/blob/master/README.md
 
