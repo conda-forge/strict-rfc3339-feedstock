@@ -1,33 +1,35 @@
-{% set name = "strict-rfc3339" %}
 {% set version = "0.7" %}
-{% set sha256 = "5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277" %}
 
 package:
-  name: {{ name|lower }}
+  name: strict-rfc3339
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.org/packages/source/s/strict-rfc3339/strict-rfc3339-{{ version }}.tar.gz
+  sha256: 5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277
 
 build:
   noarch: python
   number: 2
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script:
+    - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation --disable-pip-version-check
 
 requirements:
   host:
     - pip
     - python {{ python_min }}
+    - setuptools
   run:
     - python >={{ python_min }}
 
 test:
   requires:
+    - pip
     - python {{ python_min }}
   imports:
     - strict_rfc3339
+  commands:
+    - pip check
 
 about:
   home: http://www.danielrichman.co.uk/libraries/strict-rfc3339.html
@@ -53,3 +55,4 @@ about:
 extra:
   recipe-maintainers:
     - kynan
+    - bollwyvl
