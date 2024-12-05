@@ -5,14 +5,18 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/s/strict-rfc3339/strict-rfc3339-{{ version }}.tar.gz
-  sha256: 5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277
+  - folder: dist
+    url: https://pypi.org/packages/source/s/strict-rfc3339/strict-rfc3339-{{ version }}.tar.gz
+    sha256: 5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277
+  - folder: src
+    url: https://github.com/danielrichman/strict-rfc3339/archive/refs/tags/version-{{ version }}.tar.gz
+    sha256: a78941333384514bb6d60b789b7bf6d1d628215e9e22b7d93411701b244217bb
 
 build:
   noarch: python
   number: 2
   script:
-    - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation --disable-pip-version-check
+    - cd dist && {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation --disable-pip-version-check
 
 requirements:
   host:
@@ -23,19 +27,25 @@ requirements:
     - python >={{ python_min }}
 
 test:
+  source_files:
+    - src/test_*
   requires:
+    - coverage
     - pip
+    - pytest
     - python {{ python_min }}
   imports:
     - strict_rfc3339
   commands:
     - pip check
+    - coverage run --source=strict_rfc3339 --branch -m pytest -vv --color=yes --tb=long src
+    - coverage report --show-missing --skip-covered --fail-under 98
 
 about:
-  home: http://www.danielrichman.co.uk/libraries/strict-rfc3339.html
+  home: https://github.com/danielrichman/strict-rfc3339
   license: GPL-3.0-or-later
   license_family: GPL
-  license_file: LICENSE
+  license_file: dist/LICENSE
   summary: 'Strict, simple, lightweight RFC3339 functions'
   description: |
     strict-rfc3339 is a simple & light python module to validate, parse and
@@ -50,7 +60,6 @@ about:
     be strict and stick closely to RFC3339, with a couple of very small
     caveats. It's also fully unit tested.
   doc_url: https://github.com/danielrichman/strict-rfc3339/blob/master/README.md
-  dev_url: https://github.com/danielrichman/strict-rfc3339
 
 extra:
   recipe-maintainers:
